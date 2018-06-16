@@ -5,6 +5,7 @@ import TasksLayoutComponent from './components/Tasks'
 
 class AppComponent extends React.Component {
 	render(){
+
 		return (
 			<BrowserRouter>
 		       <Route path="/" render={() => <TasksLayoutComponent /> } />

@@ -5,10 +5,7 @@ class TaskItemsComponent extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-            tasks: [
-                {'id':1, 'status': 'inactive', 'name' : 'dashcars'},
-                {'id':2, 'status': 'checked', 'name': 'expand'}
-            ],
+            tasks: props.tasks,
             checkAll: false
       };
 
@@ -22,7 +19,6 @@ class TaskItemsComponent extends React.Component {
      }else{
         state.checkAll = false;
      }
-     alert(state.checkAll)
      this.setState(state);
    }
 

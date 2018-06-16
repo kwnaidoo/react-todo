@@ -59,7 +59,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
               <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-  
+
               <span class="hidden-xs">Admin</span>
             </a>
 
@@ -102,7 +102,9 @@
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">TASK LISTS</li>
-        <li><a href="/#list">List</a></li>
+        @foreach($taskLists as $list)
+        <li><a href="/#{{urlencode($list->name)}}">{{$list->name}}</a></li>
+        @endforeach
       </ul>
       <!-- /.sidebar-menu -->
     </section>
