@@ -1,5 +1,6 @@
 {
     "/js/app.js": "/js/app.js",
     "/js/components/Tasks/index.js": "/js/components/Tasks/index.js",
+    "/js/components/Tasks/taskItems.js": "/js/components/Tasks/taskItems.js",
     "/js/components/Task/index.js": "/js/components/Task/index.js"
 }
