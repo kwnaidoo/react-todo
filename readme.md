@@ -31,11 +31,10 @@
 ## Installation instructions
 
 
-<p align="center">
 - **mv .env.example to .env and drop in your database credentials.**
 - **php artisan key:generate**
 - **php artisan migrate**
 - **php artisan db:seed --class TaskListsSeeder**
 - **php artisan serve**
 - **visit : http://127.0.0.1:8000**
-</p>
+
