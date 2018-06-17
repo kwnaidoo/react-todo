@@ -17,8 +17,8 @@ class TasksController extends BaseController
     * @param string $taskListName | name of list this task belongs to
     * @return App\Http\Resource\Task
     **/
-    public function tasks($taskListName){
-
+    public function tasks($taskListName)
+    {
       // urldecode our task list name and search the db to see if it exists
       $list = TaskList::where('name', urldecode($taskListName))->first();
       $tasks = [];
@@ -37,5 +37,63 @@ class TasksController extends BaseController
         $tasks = Collection::make(new Task());
       }
       return TaskResourse::collection($tasks);
+    }
+
+    /**
+    * Will store tasks posted to the API
+    * We strongly bind a TaskRequest to this route to enforce
+    * our validation rules as declared in our TaskRequest class
+    *
+    * @param \App\Http\Requests\TaskRequest $task
+    *
+    * @return App\Http\Resources\Task
+    **/
+    public function store(TaskRequest $request)
+    {
+      // First fetch the associated task list
+      $list = TaskList::where(
+        'name',
+        urldecode($request->input('taskListName'))
+      )->first();
+
+      // Now create a new task instance and set it's props
+      $task = new Task();
+      $task->task_list_id = $list->id;
+      $task->status = 0;
+      $task->task = $request->input('task');
+      $task->save();
+
+      // Now fill a resourse object with this task
+     // so we can return to browser.
+      $taskResource = new TaskResourse($task);
+      return $taskResource;
+    }
+
+
+    /**
+    * Will set the status to done (1) or not done (0)
+    *
+    * @param Request $request | http request object
+    * @param Integer $id | the task id
+    *
+    * @return App\Http\Resources\Task
+    **/
+    public function updateStatus(Request $request, $id)
+    {
+      // update the task accordingly
+      // not using find to prevent exception
+      $task = Task::where('id', $id)->first();
+      if (!$task){
+        return response()->json(
+          ['error' => 404, 'message' => 'Task not found']
+        );
+      }
+      $task->status = (int) $request->input('status');
+      $task->save();
+
+      // Now fill a resourse object with this task
+     // so we can return to browser.
+      $taskResource = new TaskResourse($task);
+      return $taskResource;
     }
 }

@@ -481,7 +481,7 @@ var TaskComponent = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (TaskComponent.__proto__ || Object.getPrototypeOf(TaskComponent)).call(this, props));
 
     var checked = '';
-    if (props.task.status == 'done') {
+    if (props.task.status == 1) {
       checked = 'checked';
     }
     _this.state = {
@@ -524,7 +524,7 @@ var TaskComponent = function (_React$Component) {
     key: 'render',
     value: function render() {
       var checked = '';
-      if (this.state.status == 'done') {
+      if (this.state.status == 1) {
         checked = 'checked';
       }
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -2077,7 +2077,6 @@ var TaskItemsComponent = function (_React$Component) {
       tasks: props.tasks,
       checkAll: false
     };
-
     _this.onChange = _this.onChange.bind(_this);
 
     return _this;
@@ -2093,6 +2092,13 @@ var TaskItemsComponent = function (_React$Component) {
         state.checkAll = false;
       }
       this.setState(state);
+    }
+  }, {
+    key: 'componentWillUpdate',
+    value: function componentWillUpdate(nextProps, nextState) {
+      if (this.state.tasks != nextProps.tasks) {
+        this.setState(nextState);
+      }
     }
   }, {
     key: 'render',

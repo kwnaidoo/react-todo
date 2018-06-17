@@ -8,7 +8,6 @@ class TaskItemsComponent extends React.Component {
             tasks: props.tasks,
             checkAll: false
       };
-
       this.onChange = this.onChange.bind(this);
 
    }
@@ -21,6 +20,12 @@ class TaskItemsComponent extends React.Component {
      }
      this.setState(state);
    }
+
+   componentWillUpdate(nextProps, nextState) {
+      if (this.state.tasks != nextProps.tasks) {
+        this.setState(nextState);
+      }
+    }
 
     render() {
       const items = this.state.tasks.map(

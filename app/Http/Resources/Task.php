@@ -16,9 +16,10 @@ class Task extends JsonResource
     {
       return [
           'id' => $this->id,
-          'task' => $this->name,
+          'task' => $this->task,
           'task_list_name' => $this->taskList->name,
-          'task_list_id' => $this->taskList->id
+          'task_list_id' => $this->taskList->id,
+          'status' => $this->status
       ];
     }
 }

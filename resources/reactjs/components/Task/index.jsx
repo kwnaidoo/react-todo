@@ -4,7 +4,7 @@ class TaskComponent extends React.Component {
     constructor(props) {
       super(props);
       var checked = '';
-      if(props.task.status == 'done'){
+      if(props.task.status == 1){
           checked = 'checked';
       }
       this.state = {
@@ -42,7 +42,7 @@ class TaskComponent extends React.Component {
 
     render() {
       var checked = '';
-      if (this.state.status == 'done') {
+      if (this.state.status == 1) {
          checked = 'checked';
       }
       return (

@@ -11,7 +11,8 @@ class Task extends Model
    *
    * @return \App\TaskList
    */
-    function taskList(){
+    function taskList()
+    {
         return $this->belongsTo(TaskList::class);
     }
 }

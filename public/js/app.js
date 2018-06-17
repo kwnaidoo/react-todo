@@ -639,7 +639,7 @@ var TaskComponent = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (TaskComponent.__proto__ || Object.getPrototypeOf(TaskComponent)).call(this, props));
 
     var checked = '';
-    if (props.task.status == 'done') {
+    if (props.task.status == 1) {
       checked = 'checked';
     }
     _this.state = {
@@ -682,7 +682,7 @@ var TaskComponent = function (_React$Component) {
     key: 'render',
     value: function render() {
       var checked = '';
-      if (this.state.status == 'done') {
+      if (this.state.status == 1) {
         checked = 'checked';
       }
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -2261,7 +2261,6 @@ var TaskItemsComponent = function (_React$Component) {
       tasks: props.tasks,
       checkAll: false
     };
-
     _this.onChange = _this.onChange.bind(_this);
 
     return _this;
@@ -2277,6 +2276,13 @@ var TaskItemsComponent = function (_React$Component) {
         state.checkAll = false;
       }
       this.setState(state);
+    }
+  }, {
+    key: 'componentWillUpdate',
+    value: function componentWillUpdate(nextProps, nextState) {
+      if (this.state.tasks != nextProps.tasks) {
+        this.setState(nextState);
+      }
     }
   }, {
     key: 'render',
@@ -2548,71 +2554,97 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 var TasksLayoutComponent = function (_React$Component) {
-	_inherits(TasksLayoutComponent, _React$Component);
+		_inherits(TasksLayoutComponent, _React$Component);
 
-	function TasksLayoutComponent(props) {
-		_classCallCheck(this, TasksLayoutComponent);
+		function TasksLayoutComponent(props) {
+				_classCallCheck(this, TasksLayoutComponent);
 
-		var _this = _possibleConstructorReturn(this, (TasksLayoutComponent.__proto__ || Object.getPrototypeOf(TasksLayoutComponent)).call(this, props));
+				var _this = _possibleConstructorReturn(this, (TasksLayoutComponent.__proto__ || Object.getPrototypeOf(TasksLayoutComponent)).call(this, props));
 
-		_this.state = {
-			tasks: []
-		};
-		var route = document.location.href.split("#")[1];
-		var tasks = [];
-		if (route) {
-			fetch('/api/v1/tasks/' + route).then(function (tasks) {
-				return tasks.json();
-			}).then(function (tasks) {
-				var state = Object.assign({}, _this.state);
-				state.tasks = tasks.data;
-				_this.setState(state);
-			});
-		}
-		return _this;
-	}
+				var taskList = document.location.href.split("#")[1];
+				if (!taskList) {
+						taskList = 'General';
+				}
+				_this.state = {
+						tasks: [],
+						taskList: taskList
+				};
 
-	_createClass(TasksLayoutComponent, [{
-		key: 'componentWillReceiveProps',
-		value: function componentWillReceiveProps(nextProps) {
-			var _this2 = this;
-
-			var route = document.location.href.split("#")[1];
-			var tasks = [];
-			if (route) {
-				fetch('/api/v1/tasks/' + route).then(function (tasks) {
-					return tasks.json();
+				var tasks = [];
+				fetch('/api/v1/tasks/' + taskList).then(function (tasks) {
+						return tasks.json();
 				}).then(function (tasks) {
-					var state = Object.assign({}, _this2.state);
-					state.tasks = tasks.data;
-					_this2.setState(state);
+						var state = Object.assign({}, _this.state);
+						state.tasks = tasks.data;
+						console.log(state.tasks);
+						_this.setState(state);
 				});
-			}
+				_this.saveTask = _this.saveTask.bind(_this);
+				return _this;
 		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var tasks = [];
-			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-				'div',
-				null,
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'form',
-					null,
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'label',
-						null,
-						'Task:'
-					),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', name: 'task' }),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'submit', value: 'ADD' })
-				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__taskItems__["default"], { tasks: this.state.tasks })
-			);
-		}
-	}]);
 
-	return TasksLayoutComponent;
+		_createClass(TasksLayoutComponent, [{
+				key: 'saveTask',
+				value: function saveTask(e) {
+						e.preventDefault();
+						$.ajax({
+								url: '/api/v1/tasks/create',
+								type: 'POST',
+								data: {
+										'status': 0,
+										'taskListName': this.state.taskList,
+										'task': $("#task").val(),
+										'_token': $('meta[name="csrf-token"]').attr('content')
+								},
+								success: function success(response) {
+										alert(response);
+								}
+						});
+				}
+		}, {
+				key: 'componentWillReceiveProps',
+				value: function componentWillReceiveProps(nextProps) {
+						var _this2 = this;
+
+						var taskList = document.location.href.split("#")[1];
+						if (!taskList) {
+								taskList = 'General';
+						}
+						var tasks = [];
+
+						fetch('/api/v1/tasks/' + taskList).then(function (tasks) {
+								return tasks.json();
+						}).then(function (tasks) {
+								var state = Object.assign({}, _this2.state);
+								state.tasks = tasks.data;
+								state.taskList = taskList;
+								_this2.setState(state);
+						});
+				}
+		}, {
+				key: 'render',
+				value: function render() {
+						var tasks = [];
+						return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'div',
+								null,
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										'form',
+										null,
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+												'label',
+												null,
+												'Task:'
+										),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', name: 'task', id: 'task' }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'submit', value: 'ADD', onClick: this.saveTask })
+								),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__taskItems__["default"], { tasks: this.state.tasks })
+						);
+				}
+		}]);
+
+		return TasksLayoutComponent;
 }(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (TasksLayoutComponent);

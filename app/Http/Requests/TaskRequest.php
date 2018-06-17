@@ -25,8 +25,8 @@ class TaskRequest extends FormRequest
     public function rules()
     {
         return [
-              'name' => 'required|min:5',
-              'task_list_id' => 'required|integer'
+              'task' => 'required|min:3',
+              'status' => 'required|integer'
         ];
     }
 }
