@@ -26,7 +26,11 @@
              -- views/app.blade - The default application layout.
         -- webpack.mix.js - used for compiling our JSX files
 </p>
+
+
 ## Installation instructions
+
+
 <p align="center">
 1) mv .env.example to .env and drop in your database credentials.
 2) php artisan key:generate
