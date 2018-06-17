@@ -24,8 +24,9 @@
              -- reactjs - All react components.
              -- views/app.blade - The default application layout.
         -- webpack.mix.js - used for compiling our JSX files
-
-## About React ToDo
+</p>
+<p align="center">
+## Installation instructions
 
 1) mv .env.example to .env and drop in your database credentials.
 2) php artisan key:generate
