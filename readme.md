@@ -1,5 +1,6 @@
-<p align="center">
+
 ## About React ToDo
+<p align="center">
     React todo is a basic ToDo application that's built on laravel and React JS, the
     application structure is as follows:
 
@@ -25,18 +26,12 @@
              -- views/app.blade - The default application layout.
         -- webpack.mix.js - used for compiling our JSX files
 </p>
-<p align="center">
 ## Installation instructions
-
+<p align="center">
 1) mv .env.example to .env and drop in your database credentials.
 2) php artisan key:generate
 3) php artisan migrate
 4) php artisan db:seed --class TaskListsSeeder
 5) php artisan serve
 6) visit : http://127.0.0.1:8000
-
-
-
-
-
 </p>
